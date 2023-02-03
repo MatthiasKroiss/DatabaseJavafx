@@ -10,7 +10,7 @@ public class SqlDatabase {
     private static final String user = "B_Uebung";
     private static final String password = "B_Uebung";
 
-    public static void insert() {
+    public static void insert(String id, String name, String wohnort) {
         try (Connection c = DriverManager.getConnection(url, user, password)) {
             String sql = "INSERT INTO file (name, type, path, size) VALUES (?,?,?,?)";
 
@@ -20,13 +20,12 @@ public class SqlDatabase {
             //  With the help of PreparedStatement the backslashes will not get
             //  ignored during the insertion.
             PreparedStatement pstmt = c.prepareStatement(sql);
-            /*
-            pstmt.setString(1, fssFile.getFilename());
-            pstmt.setString(2, fssFile.getFiletype());
-            pstmt.setString(3, fssFile.getFilepath());
-            pstmt.setString(4, fssFile.getFilesize());
 
-             */
+            pstmt.setString(1, id);
+            pstmt.setString(2, name);
+            pstmt.setString(3, wohnort);
+
+
             pstmt.executeUpdate();
             pstmt.close();
             System.out.println("Inserted datas to the database");

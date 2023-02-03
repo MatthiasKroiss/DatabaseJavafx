@@ -11,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.SqlDatabase;
 
 import java.io.IOException;
 
@@ -40,7 +41,9 @@ public class PersonC {
     private TableColumn<?, ?> tcWohnort;
 
     @FXML
-    private void btSubmitOnAction(ActionEvent event) {}
+    private void btSubmitOnAction(ActionEvent event) {
+        insert();
+    }
 
     public static void show(Stage stage) {
         try {
@@ -55,5 +58,15 @@ public class PersonC {
             e.printStackTrace();
             Platform.exit();
         }
+    }
+
+
+    private void insert(){
+        SqlDatabase.insert(tfID.getText(), tfName.getText(), tfWohnort.getText());
+        refresh();
+    }
+
+    private void refresh(){
+
     }
 }
