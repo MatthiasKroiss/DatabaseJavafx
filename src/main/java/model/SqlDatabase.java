@@ -1,9 +1,6 @@
 package model;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class SqlDatabase {
     private static final String url = "jdbc:derby://localhost:1527/B_Uebung";
@@ -12,7 +9,7 @@ public class SqlDatabase {
 
     public static void insert(int id, String name, String wohnort) {
         try (Connection c = DriverManager.getConnection(url, user, password)) {
-            String sql = "INSERT INTO" + "\"" + "Adresse"+ "\"" + " (ID, WOHNORT) VALUES (?,?)";
+            String sql = "INSERT INTO \"Adresse\" (ID, WOHNORT) VALUES (?,?)";
 
             //A PreparedStatement is being used explicit for the filepath.
             //  Filepath contains multiple backslashes and the backslahes get ignored
@@ -26,17 +23,18 @@ public class SqlDatabase {
 
 
             pstmt.executeUpdate();
-
-            sql = "INSERT INTO" + "\"" + "Person"+ "\"" + " (NAME, ID, AdresseID) VALUES (?,?,?)";
-
-            pstmt = c.prepareStatement(sql);
-
-            pstmt.setString(1, name);
-            pstmt.setInt(2, id);
-            pstmt.setInt(3, 4);
-            pstmt.executeUpdate();
-
             pstmt.close();
+
+            String sql2 = "INSERT INTO \"Person\" (NAME, ID, \"AdresseId\") VALUES (?,?,?)";
+
+            PreparedStatement pstmt2 = c.prepareStatement(sql2);
+
+            pstmt2.setInt(1, id);
+            pstmt2.setString(2, name);
+            pstmt2.setInt(3, 4);
+            pstmt2.executeUpdate();
+
+            pstmt2.close();
             System.out.println("Inserted datas to the database");
         } catch (SQLException e) {
             e.printStackTrace();
