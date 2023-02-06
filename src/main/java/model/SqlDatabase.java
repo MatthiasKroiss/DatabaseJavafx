@@ -12,7 +12,7 @@ public class SqlDatabase {
 
     public static void insert(String id, String name, String wohnort) {
         try (Connection c = DriverManager.getConnection(url, user, password)) {
-            String sql = "INSERT INTO file (name, type, path, size) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO Adresse (ID, WOHNORT) VALUES (?,?)";
 
             //A PreparedStatement is being used explicit for the filepath.
             //  Filepath contains multiple backslashes and the backslahes get ignored
@@ -27,6 +27,9 @@ public class SqlDatabase {
 
 
             pstmt.executeUpdate();
+
+            sql = "INSERT INTO Person (NAME, ID, AdresseID) VALUES (?,?)";
+
             pstmt.close();
             System.out.println("Inserted datas to the database");
         } catch (SQLException e) {
