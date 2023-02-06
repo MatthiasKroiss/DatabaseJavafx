@@ -10,24 +10,13 @@ public class SqlDatabase {
     public static void insert(int id, String name, String wohnort) {
         try (Connection c = DriverManager.getConnection(url, user, password)) {
             int wohnortID = getWohnortID(wohnort);
-            String sql = "INSERT INTO \"Adresse\" (ID, WOHNORT) VALUES (?,?)";
-
-            PreparedStatement pstmt = c.prepareStatement(sql);
-
-            pstmt.setInt(1, id);
-            pstmt.setString(2, wohnort);
-
-
-            pstmt.executeUpdate();
-            pstmt.close();
-
-            String sql2 = "INSERT INTO \"Person\" (NAME, ID, \"AdresseId\") VALUES (?,?,?)";
+            String sql2 = "INSERT INTO \"Person\" (ID, NAME, \"AdresseId\") VALUES (?,?,?)";
 
             PreparedStatement pstmt2 = c.prepareStatement(sql2);
 
             pstmt2.setInt(1, id);
             pstmt2.setString(2, name);
-            pstmt2.setInt(3, 4);
+            pstmt2.setInt(3, wohnortID);
             pstmt2.executeUpdate();
 
             pstmt2.close();
@@ -38,9 +27,8 @@ public class SqlDatabase {
     }
 
     private static int getWohnortID(String wohnort) {
+        int id = 0;
         try (Connection c = DriverManager.getConnection(url, user, password)) {
-            int id = 0;
-
             String selectWohnort = "SELECT * FROM \"Adresse\" where WOHNORT like '" + wohnort + "'";
             Statement statement = c.createStatement();
             ResultSet resultSet = statement.executeQuery(selectWohnort);
@@ -55,12 +43,12 @@ public class SqlDatabase {
 
                 ResultSet resultID = preparedStatement.getGeneratedKeys();
                 resultID.next();
-                id = resultSet.getInt(1);
+                id = resultID.getInt(1);
             }
-
-            return id;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return id;
     }
 }
