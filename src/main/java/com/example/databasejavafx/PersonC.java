@@ -1,5 +1,7 @@
 package com.example.databasejavafx;
 
+
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +16,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.Person;
 import model.SqlDatabase;
 
 import java.io.IOException;
@@ -68,9 +69,9 @@ public class PersonC {
 
     @FXML
     public void initialize() {
-        //idColumn.setCellValueFactory(new PropertyValueFactory<>("idColumn"));
-        //nameColumn.setCellValueFactory(new PropertyValueFactory<>("nameColumn"));
-        //wohnortColumn.setCellValueFactory(new PropertyValueFactory<>("wohnortColumn"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        wohnortColumn.setCellValueFactory(new PropertyValueFactory<>("wohnort"));
 
         tvList.setItems(personenList);
     }
@@ -90,7 +91,5 @@ public class PersonC {
         tfID.setText("");
         tfName.setText("");
         tfWohnort.setText("");
-
-        tvList.refresh();
     }
 }
