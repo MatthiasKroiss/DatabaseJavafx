@@ -1,6 +1,8 @@
 package com.example.databasejavafx;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +12,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Person;
 import model.SqlDatabase;
 
 import java.io.IOException;
@@ -29,21 +33,23 @@ public class PersonC {
     private Button btSubmit;
 
     @FXML
-    private TableView<?> tvList;
+    private TableView<Person> tvList;
 
     @FXML
-    private TableColumn<?, ?> tcID;
+    private TableColumn<Person, Integer> idColumn;
 
     @FXML
-    private TableColumn<?, ?> tcName;
+    private TableColumn<Person, String> nameColumn;
 
     @FXML
-    private TableColumn<?, ?> tcWohnort;
+    private TableColumn<Person, String> wohnortColumn;
 
     @FXML
     private void btSubmitOnAction(ActionEvent event) {
         insert();
     }
+
+    private ObservableList<Person> personenList = FXCollections.observableArrayList();
 
     public static void show(Stage stage) {
         try {
@@ -62,15 +68,29 @@ public class PersonC {
 
     @FXML
     public void initialize() {
+        //idColumn.setCellValueFactory(new PropertyValueFactory<>("idColumn"));
+        //nameColumn.setCellValueFactory(new PropertyValueFactory<>("nameColumn"));
+        //wohnortColumn.setCellValueFactory(new PropertyValueFactory<>("wohnortColumn"));
+
+        tvList.setItems(personenList);
     }
 
 
-    private void insert(){
+    private void insert() {
         SqlDatabase.insert(Integer.parseInt(tfID.getText()), tfName.getText(), tfWohnort.getText());
+        add();
         refresh();
     }
 
-    private void refresh(){
+    private void add() {
+        personenList.add(new Person(Integer.parseInt(tfID.getText()), tfName.getText(), tfWohnort.getText()));
+    }
 
+    private void refresh() {
+        tfID.setText("");
+        tfName.setText("");
+        tfWohnort.setText("");
+
+        tvList.refresh();
     }
 }
