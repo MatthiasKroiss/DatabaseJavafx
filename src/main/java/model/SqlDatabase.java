@@ -10,9 +10,9 @@ public class SqlDatabase {
     private static final String user = "B_Uebung";
     private static final String password = "B_Uebung";
 
-    public static void insert(String id, String name, String wohnort) {
+    public static void insert(int id, String name, String wohnort) {
         try (Connection c = DriverManager.getConnection(url, user, password)) {
-            String sql = "INSERT INTO Adresse (ID, WOHNORT) VALUES (?,?)";
+            String sql = "INSERT INTO" + "\"" + "Adresse"+ "\"" + " (ID, WOHNORT) VALUES (?,?)";
 
             //A PreparedStatement is being used explicit for the filepath.
             //  Filepath contains multiple backslashes and the backslahes get ignored
@@ -21,14 +21,20 @@ public class SqlDatabase {
             //  ignored during the insertion.
             PreparedStatement pstmt = c.prepareStatement(sql);
 
-            pstmt.setString(1, id);
-            pstmt.setString(2, name);
-            pstmt.setString(3, wohnort);
+            pstmt.setInt(1, id);
+            pstmt.setString(2, wohnort);
 
 
             pstmt.executeUpdate();
 
-            sql = "INSERT INTO Person (NAME, ID, AdresseID) VALUES (?,?,?)";
+            sql = "INSERT INTO" + "\"" + "Person"+ "\"" + " (NAME, ID, AdresseID) VALUES (?,?,?)";
+
+            pstmt = c.prepareStatement(sql);
+
+            pstmt.setString(1, name);
+            pstmt.setInt(2, id);
+            pstmt.setInt(3, 4);
+            pstmt.executeUpdate();
 
             pstmt.close();
             System.out.println("Inserted datas to the database");

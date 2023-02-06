@@ -62,7 +62,7 @@ public class PersonC {
 
 
     private void insert(){
-        SqlDatabase.insert(tfID.getText(), tfName.getText(), tfWohnort.getText());
+        SqlDatabase.insert(Integer.parseInt(tfID.getText()), tfName.getText(), tfWohnort.getText());
         refresh();
     }
 
