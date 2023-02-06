@@ -9,13 +9,9 @@ public class SqlDatabase {
 
     public static void insert(int id, String name, String wohnort) {
         try (Connection c = DriverManager.getConnection(url, user, password)) {
+            int wohnortID = getWohnortID(wohnort);
             String sql = "INSERT INTO \"Adresse\" (ID, WOHNORT) VALUES (?,?)";
 
-            //A PreparedStatement is being used explicit for the filepath.
-            //  Filepath contains multiple backslashes and the backslahes get ignored
-            //  with using the 'normal' Statement.
-            //  With the help of PreparedStatement the backslashes will not get
-            //  ignored during the insertion.
             PreparedStatement pstmt = c.prepareStatement(sql);
 
             pstmt.setInt(1, id);
@@ -36,6 +32,33 @@ public class SqlDatabase {
 
             pstmt2.close();
             System.out.println("Inserted datas to the database");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static int getWohnortID(String wohnort) {
+        try (Connection c = DriverManager.getConnection(url, user, password)) {
+            int id = 0;
+
+            String selectWohnort = "SELECT * FROM \"Adresse\" where WOHNORT like '" + wohnort + "'";
+            Statement statement = c.createStatement();
+            ResultSet resultSet = statement.executeQuery(selectWohnort);
+
+            if (resultSet.next()) {
+                id = resultSet.getInt(1);
+            } else {
+                String insertWohnort = "INSERT INTO \"Adresse\" (WOHNORT) values (?)";
+                PreparedStatement preparedStatement = c.prepareStatement(insertWohnort, Statement.RETURN_GENERATED_KEYS);
+                preparedStatement.setString(1, wohnort);
+                preparedStatement.executeUpdate();
+
+                ResultSet resultID = preparedStatement.getGeneratedKeys();
+                resultID.next();
+                id = resultSet.getInt(1);
+            }
+
+            return id;
         } catch (SQLException e) {
             e.printStackTrace();
         }

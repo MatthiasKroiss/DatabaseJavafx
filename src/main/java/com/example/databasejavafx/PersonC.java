@@ -60,6 +60,10 @@ public class PersonC {
         }
     }
 
+    @FXML
+    public void initialize() {
+    }
+
 
     private void insert(){
         SqlDatabase.insert(Integer.parseInt(tfID.getText()), tfName.getText(), tfWohnort.getText());
