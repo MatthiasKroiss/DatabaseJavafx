@@ -28,7 +28,7 @@ public class SqlDatabase {
 
             pstmt.executeUpdate();
 
-            sql = "INSERT INTO Person (NAME, ID, AdresseID) VALUES (?,?)";
+            sql = "INSERT INTO Person (NAME, ID, AdresseID) VALUES (?,?,?)";
 
             pstmt.close();
             System.out.println("Inserted datas to the database");
