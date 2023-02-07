@@ -1,3 +1,4 @@
+create schema B_UEBUNG;
 create table "Adresse"
 (
     ID      INTEGER not null

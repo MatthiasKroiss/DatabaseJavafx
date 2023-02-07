@@ -1,6 +1,10 @@
 package model;
 
+import com.example.databasejavafx.Person;
+
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class SqlDatabase {
     private static final String url = "jdbc:derby://localhost:1527/B_Uebung";
@@ -50,5 +54,23 @@ public class SqlDatabase {
         }
 
         return id;
+    }
+
+    public static List<Person> getAllPersons() {
+        LinkedList<Person> personList = new LinkedList<Person>();
+        try (Connection c = DriverManager.getConnection(url, user, password)) {
+            String selectAll = "SELECT * FROM \"Person\" INNER JOIN \"Adresse\" on \"Person\".\"AdresseId\" = \"Adresse\".ID";
+            Statement statement = c.createStatement();
+            ResultSet resultSet = statement.executeQuery(selectAll);
+
+            while (resultSet.next()) {
+                personList.add(new Person(resultSet.getInt(1
+                ), resultSet.getString(2), resultSet.getString(5)));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return personList;
     }
 }

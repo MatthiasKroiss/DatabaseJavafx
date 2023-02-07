@@ -10,10 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.SqlDatabase;
@@ -73,14 +70,22 @@ public class PersonC {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         wohnortColumn.setCellValueFactory(new PropertyValueFactory<>("wohnort"));
 
+
+
+        personenList.addAll(SqlDatabase.getAllPersons());
         tvList.setItems(personenList);
     }
 
 
     private void insert() {
-        SqlDatabase.insert(Integer.parseInt(tfID.getText()), tfName.getText(), tfWohnort.getText());
-        add();
-        refresh();
+        try {
+            SqlDatabase.insert(Integer.parseInt(tfID.getText()), tfName.getText(), tfWohnort.getText());
+            add();
+            refresh();
+        }catch (Exception ex){
+            showError();
+            refresh();
+        }
     }
 
     private void add() {
@@ -91,5 +96,10 @@ public class PersonC {
         tfID.setText("");
         tfName.setText("");
         tfWohnort.setText("");
+    }
+
+    private void showError(){
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Ein Fehler ist aufgetreten!");
+        alert.showAndWait();
     }
 }
