@@ -1,5 +1,5 @@
 # DatabaseJavafx
-Databaseapplication with JavaFX
+Databaseapplication with JavaFX without ORM
 
 >Copyright (c) 2023 Matthias Kroiss, Christian Thrinh
 All rights reserved.
