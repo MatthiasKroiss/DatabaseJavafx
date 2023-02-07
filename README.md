@@ -1,4 +1,4 @@
 # DatabaseJavafx
 Databaseapplication with JavaFX
 
-Matthias Kroiss, Christian Trinh
+ (c) Matthias Kroiss, Christian Trinh
