@@ -1,7 +1,7 @@
 # DatabaseJavafx
 Databaseapplication with JavaFX without ORM
 
->Copyright (c) 2023 Matthias Kroiss, Christian Thrinh
+>Copyright (c) 2023 Matthias Kroiss, Christian Trinh
 All rights reserved.
 This software is proprietary and confidential.
 No part of this software may be used, reproduced,
